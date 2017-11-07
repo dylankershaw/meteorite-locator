@@ -1,19 +1,24 @@
 const token = 'trfmCuhUcSX1kaOTEpkunPo0z'
 
+// ADD LOADING BAR
+
+// on location form submit, triggers meteoriteLister() and prevents page from reloading
 $('#locationForm').submit(function () {
     meteoriteLister();
     return false;
 });
 
+// stores user location and gets all nearby meteorites
 function meteoriteLister() {
-    console.log("meteoriteLister is starting")        
+    console.log("meteoriteLister is starting");     
     const userLocation = locationReturner();
     const nearbyMeteorites = getMeteorites(userLocation);
     console.log("meteoriteLister is done")            
 }
 
+// returns the inputted coordinates as an object w/ long and lat
 function locationReturner() {
-    // returns the inputted coordinates as an object w/ long and lat
+    // NEED TO NORMALIZE COORDINATES (e, w, +, -)
     console.log("locationReturner is starting")    
     longitude = document.getElementById("longitude").value;
     latitude = document.getElementById("latitude").value;
@@ -24,45 +29,47 @@ function locationReturner() {
     console.log("locationReturner is done")        
 }
 
+// gets all meteorites from the api
 function getMeteorites(userLocation) {
-    // gets all meteorites from the api
     console.log("getMeteorites is starting")
     $.ajax({
         url: "https://data.nasa.gov/resource/y77d-th95.json",
         type: "GET",
         data: {
-          "$limit" : 35000, // figure out how to search by location rather than returning every single meteorite
-          // "$limit" : 5000,
+          "$limit" : 35000,
           "$$app_token" : `${token}`,
         }
     }).done(function(data) {
+        console.log("getMeteorites is done");        
         return meteoriteFinder(data, userLocation);
-        console.log("getMeteorites is done");
     });
 }
 
+// iterates through the return of getMeteorites() and passes any that are within 100 miles to meteoriteDisplayer()
 function meteoriteFinder(data, userLocation) {
-    // iterates through the return of getMeteorites() and list any that are within 100 miles
     console.log("meteoriteFinder is starting")
+    // REFACTOR THIS
     const nearbyMeteorites = data.filter(function(meteorite) {
-        // refactor this
         let meteoriteLongitude;
         let meteoriteLatitude;
-        if (meteorite.geolocation !== undefined) { // prevents meteorites w/o geolocation from breaking filter
+        // prevents meteorites w/o geolocation from breaking filter
+        if (meteorite.geolocation !== undefined) {
             meteoriteLongitude = meteorite.geolocation.coordinates[0];
             meteoriteLatitude = meteorite.geolocation.coordinates[1];
         } else {
-            meteoriteLongitude = 0; // should find a better solution than setting long and lat to 0; maybe use reclong?
-            meteoriteLatitude = 0; // should find a better solution than setting long and lat to 0; maybe use reclat?
+            // center of atlantic ocean (so no meteorites within 100 miles)
+            meteoriteLongitude = 42;
+            meteoriteLatitude = 32;
         }
-        var userLongitude = Number(userLocation.longitude); // don't use var here!
-        var userLatitude = Number(userLocation.latitude); // don't use var here!
+        var userLongitude = Number(userLocation.longitude); // DON'T USE VAR HERE
+        var userLatitude = Number(userLocation.latitude); // DON'T USE VAR HERE
         return distanceCalculator(meteoriteLatitude, meteoriteLongitude, userLatitude, userLongitude) <= 100;
     })
-    meteoriteDisplayer(nearbyMeteorites);
-    console.log("meteoriteFinder is done");    
+    console.log("meteoriteFinder is done");
+    meteoriteDisplayer(nearbyMeteorites);    
 }
 
+// calculates the distance between two sets of coordinates
 function distanceCalculator(lat1, lon1, lat2, lon2) {
     console.log("distanceCalculator is starting")
     var p = 0.017453292519943295; // Math.PI / 180
@@ -72,10 +79,16 @@ function distanceCalculator(lat1, lon1, lat2, lon2) {
     console.log("distanceCalculator is done")    
 }
 
+// displays all nearby meteorites on the page
 function meteoriteDisplayer(nearbyMeteorites) {
     console.log("meteoriteDisplayer is starting");
     const listDiv = document.getElementById("nearbyMeteoritesList");    
     // need to clear listDiv before appending new meteorites
+    divCreator(listDiv, nearbyMeteorites);
+    console.log("meteoriteDisplayer is done");
+}
+
+function divCreator(listDiv, nearbyMeteorites) {
     nearbyMeteorites.forEach(function(meteorite) {
         const newMeteorite = document.createElement('div');
         newMeteorite.innerHTML += `\n<b>${meteorite.name}</b>`;
@@ -83,5 +96,4 @@ function meteoriteDisplayer(nearbyMeteorites) {
         newMeteorite.innerHTML += `\n<li>Location: ${meteorite.reclong}, ${meteorite.reclat}</li>`;
         listDiv.appendChild(newMeteorite);
     })
-    console.log("meteoriteDisplayer is done");
 }
