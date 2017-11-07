@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Meteorite Locator</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>    
+  </head>
+  <body>
+    <div>
+        <h1>Metorite Locator</h1>
+        <h3>Enter your location and this site will list all known metorite landings within 100 miles of you.</h3>
+    </div>
+    <div>
+        <form action="#" id="locationForm" >
+            Longitude: <br>
+            <input type="number" name="longitude" id="longitude"><br>
+            Latitude: <br>
+            <input type="number" name="latitude" id="latitude"><br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    <br>    
+    <div id="nearbyMeteoritesList"></div>
+    <script src="index.js"></script>
+  </body>
