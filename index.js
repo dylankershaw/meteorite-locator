@@ -3,7 +3,7 @@
 // METEORITES SHOULD POPULATE AS MAP MARKERS
 // SET A MAX WIDTH FOR LOADING BAR
 
-const token = config.nasaAPIToken
+if (config) { const token = config.nasaAPIToken }; // works locally but not on heroku
 
 // on location form submit, triggers meteoriteLister() and prevents page from reloading
 $('#locationForm').submit(function () {
