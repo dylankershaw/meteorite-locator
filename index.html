@@ -2,7 +2,8 @@
 <html>
   <head>
     <title>Meteorite Locator</title>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>    
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
   </head>
   <body>
     <div>
@@ -11,14 +12,28 @@
     </div>
     <div>
         <form action="#" id="locationForm" >
-            Longitude: <br>
-            <input type="number" name="longitude" id="longitude"><br>
-            Latitude: <br>
-            <input type="number" name="latitude" id="latitude"><br>
-            <input type="submit" value="Submit">
+          Latitude: <br>
+          <input type="number" name="latitude" id="latitude"><br>
+          Longitude: <br>
+          <input type="number" name="longitude" id="longitude"><br>
+          <input type="submit" value="Submit">
         </form>
     </div>
+    <br>
+    <div>
+      <p><button onclick="geoFindMe()">Show my location</button></p>
+      <div id="out"></div>
+    </div>
+    <br>
+    <div>
+      <p>Progress:</p>
+      <div id="progress">
+        <div id="bar"></div>
+      </div>
+    </div>    
     <br>    
     <div id="nearbyMeteoritesList"></div>
+    <script type='text/javascript' src='config.js'></script>
     <script src="index.js"></script>
   </body>
+</html>
