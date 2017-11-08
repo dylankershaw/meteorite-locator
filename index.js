@@ -1,9 +1,9 @@
-// FORM CAN'T TAKE DECIMAL COORDINATES
+// FORM CAN'T TAKE DECIMAL COORDINATES // maybe use .toPrecision to round them on submit
 // SHOW MY LOCATION SHOULD AUTO-POPULATE FORM
 // METEORITES SHOULD POPULATE AS MAP MARKERS
 // SET A MAX WIDTH FOR LOADING BAR
 
-const token = 'config.nasaAPIToken' // PUT IN SECRETS.YML AND .GITIGNORE IT
+const token = config.nasaAPIToken
 
 // on location form submit, triggers meteoriteLister() and prevents page from reloading
 $('#locationForm').submit(function () {
