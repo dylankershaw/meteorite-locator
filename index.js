@@ -93,7 +93,8 @@ function divCreator(listDiv, nearbyMeteorites) {
         const newMeteorite = document.createElement('div');
         newMeteorite.innerHTML += `\n<b>${meteorite.name}</b>`;
         newMeteorite.innerHTML += `\n<li>Mass: ${meteorite.mass}</li>`;
-        newMeteorite.innerHTML += `\n<li>Location: ${meteorite.reclong}, ${meteorite.reclat}</li>`;
+        newMeteorite.innerHTML += `\n<li>Year: ${meteorite.year.slice(0, 4)}</li>`;
+        newMeteorite.innerHTML += `\n<li>Location: ${meteorite.reclat}, ${meteorite.reclong}</li>`; // use google map reverse geocoder
         listDiv.appendChild(newMeteorite);
     })
 }
